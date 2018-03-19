@@ -47,6 +47,12 @@ app.get('/api/ping', (req, res) => {
   res.send('Pong!');
 });
 
+app.get('/api/status', (req, res) => {
+  oneSphere.getStatus()
+    .then(oneSphereStatus => res.status(200).send(oneSphereStatus))
+    .catch(statusError => res.status(400).send(statusError));
+});
+
 app.get('/api/session', (req, res) => {
   oneSphere.getSession()
     .then(session =>
