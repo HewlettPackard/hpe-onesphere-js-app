@@ -30,6 +30,14 @@ oneSphere.postSession({
   password: ONESPHERE_PASSWORD,
 });
 
+// Allow of origins.
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
+
+
 // Create a GET route to our base url.
 app.get('/', (req, res) => {
   res.send('Hello World');
