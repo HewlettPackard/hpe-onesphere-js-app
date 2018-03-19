@@ -1,10 +1,30 @@
 import express from 'express';
+import chalk from 'chalk';
+import OneSphere from '@hpe/hpe-onesphere-js';
 
 // Instantiate our express application.
 const app = express();
 
+// Instantiate our OneSphere instance.
+const oneSphere = new OneSphere('https://deic02-hpe.hpeonesphere.com');
+
 // Easy logging.
-const log = json => console.log(chalk.green(JSON.stringify(json, null, 2)));
+const log = (output, color = chalk.green) => typeof output === 'object'
+  ? console.log(color(JSON.stringify(output, null, 2)))
+  : console.log(color(output));
+
+oneSphere.postSession({
+  username: 'amejias@hpe.com',
+  password: '***'
+})
+.then(responseData => {
+  oneSphere.getProjects({ view: 'full' })
+  .then(projects => {
+    projects.members.map(project => log(project));
+  })
+  .catch(projectError => log(projectError, chalk.red));
+})
+.catch(responseError => log(responseError, chalk.red));
 
 // Create a GET route to our base url.
 app.get('/', (req, res) => {
