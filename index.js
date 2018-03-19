@@ -28,17 +28,34 @@ const log = (output, color = chalk.green) => (typeof output === 'object'
 oneSphere.postSession({
   username: ONESPHERE_USERNAME,
   password: ONESPHERE_PASSWORD,
-})
-  .then(() => {
-    oneSphere.getProjects({ view: 'full' })
-      .then(projects => projects.members.map(project => log(project)))
-      .catch(projectError => log(projectError, chalk.red));
-  })
-  .catch(responseError => log(responseError, chalk.red));
+});
 
 // Create a GET route to our base url.
 app.get('/', (req, res) => {
   res.send('Hello World');
+});
+
+app.get('/api/ping', (req, res) => {
+  res.send('Pong!');
+});
+
+app.get('/api/session', (req, res) => {
+  oneSphere.getSession()
+    .then(session =>
+      oneSphere.getUser(session.userUri)
+        .then(user => res.status(200).send({ session, user })));
+});
+
+app.get('/api/projects', (req, res) => {
+  oneSphere.getProjects({ view: 'full' })
+    .then(projects => res.status(200).send(projects))
+    .catch(projectsError => res.status(400).send(projectsError));
+});
+
+app.get('/api/tags', (req, res) => {
+  oneSphere.getTags({ view: 'full' })
+    .then(tags => res.status(200).send(tags))
+    .catch(tagsError => res.status(400).send(tagsError));
 });
 
 // Listen for requests at a specified port, 3000.
