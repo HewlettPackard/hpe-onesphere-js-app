@@ -10,7 +10,12 @@ const app = express();
 dotEnv.config();
 
 // Destructured env variables.
-const { ONESPHERE_API_URL, ONESPHERE_USERNAME, ONESPHERE_PASSWORD } = process.env;
+const {
+  API_PORT,
+  ONESPHERE_API_URL,
+  ONESPHERE_USERNAME,
+  ONESPHERE_PASSWORD,
+} = process.env;
 
 // Instantiate our OneSphere instance.
 const oneSphere = new OneSphere(ONESPHERE_API_URL);
@@ -37,7 +42,7 @@ app.get('/', (req, res) => {
 });
 
 // Listen for requests at a specified port, 3000.
-app.listen(3001, () => {
+app.listen(API_PORT, () => {
   // Send a message to our terminal window that we're ready for action.
-  log('Server listening to http://localhost:3001');
+  log(`Server listening to http://localhost:${API_PORT}`);
 });
