@@ -1,12 +1,19 @@
 import express from 'express';
 import chalk from 'chalk';
 import OneSphere from '@hpe/hpe-onesphere-js';
+import dotEnv from 'dotenv';
 
 // Instantiate our express application.
 const app = express();
 
+// Gather our environment variables.
+dotEnv.config();
+
+// Destructured env variables.
+const { ONESPHERE_API_URL, ONESPHERE_USERNAME, ONESPHERE_PASSWORD } = process.env;
+
 // Instantiate our OneSphere instance.
-const oneSphere = new OneSphere('https://deic02-hpe.hpeonesphere.com');
+const oneSphere = new OneSphere(ONESPHERE_API_URL);
 
 // Easy logging.
 const log = (output, color = chalk.green) => (typeof output === 'object'
@@ -14,8 +21,8 @@ const log = (output, color = chalk.green) => (typeof output === 'object'
   : console.log(color(output)));
 
 oneSphere.postSession({
-  username: 'amejias@hpe.com',
-  password: '***',
+  username: ONESPHERE_USERNAME,
+  password: ONESPHERE_PASSWORD,
 })
   .then(() => {
     oneSphere.getProjects({ view: 'full' })
