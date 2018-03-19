@@ -1,0 +1,21 @@
+{
+  "name": "hpe-onesphere-js-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx babel-node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@hpe/hpe-onesphere-js": "^0.1.4",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "chalk": "^2.3.2",
+    "express": "^4.16.2",
+    "isomorphic-fetch": "^2.2.1"
+  }
+}
