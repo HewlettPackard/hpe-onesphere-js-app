@@ -72,6 +72,12 @@ app.get('/api/tags', (req, res) => {
     .catch(tagsError => res.status(400).send(tagsError));
 });
 
+app.get('/api/regions', (req, res) => {
+  oneSphere.getRegions()
+    .then(regions => res.status(200).send(regions))
+    .catch(regionsError => res.status(400).send(regionsError));
+});
+
 // Listen for requests at a specified port, 3000.
 app.listen(API_PORT, () => {
   // Send a message to our terminal window that we're ready for action.
